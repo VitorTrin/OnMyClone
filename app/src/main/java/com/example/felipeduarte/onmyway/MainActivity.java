@@ -6,8 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 public class MainActivity extends AppCompatActivity /*implements View.OnClickListener*/{
     Button button;
+    private long taskDelay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +33,11 @@ public class MainActivity extends AppCompatActivity /*implements View.OnClickLis
     }
     public void goToMapas(View view){
         Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToViagem(View view) {
+        Intent intent = new Intent(this, ViagemActivity.class);
         startActivity(intent);
     }
 }

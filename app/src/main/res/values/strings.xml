@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">OnMyWay</string>
+    <string name="app_name">TrackMe</string>
     <string name="title_activity_login">Cadastre um amigo</string>
 
     <!-- Strings related to login -->
@@ -18,4 +18,9 @@
     <string name="botao_ir_cadastro">Cadastrar Amigo</string>
     <string name="botao_ir_mapa">Ir para o mapa</string>
     <string name="title_activity_maps">Map</string>
+    <string name="botao_viajar">Viajar</string>
+    <string name="label_destino">Destino</string>
+    <string name="label_tempo_estimado">Tempo Estimado (min)</string>
+    <string name="botao_iniciar">Iniciar</string>
+    <string name="botao_parar">Parar</string>
 </resources>
