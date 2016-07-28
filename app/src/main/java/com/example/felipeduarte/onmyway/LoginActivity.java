@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity{
             return;
         }
 
-        WebServiceTask wst = new WebServiceTask(WebServiceTask.POST_TASK, this, "Posting data...");
+        WebServiceTask wst = new WebServiceTask(WebServiceTask.POST_TASK, this, "Cadastrando...");
 
         wst.addNameValuePair("email", email);
         wst.addNameValuePair("password", pass);
@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity{
 
         String loginURL = SERVICE_URL + "?email=" + email + "&password=" + pass;
 
-        WebServiceTask wst = new WebServiceTask(WebServiceTask.GET_TASK, this, "GETting data...");
+        WebServiceTask wst = new WebServiceTask(WebServiceTask.GET_TASK, this, "Logando...");
 
         wst.execute(new String[] { loginURL });
     }
@@ -212,10 +212,8 @@ public class LoginActivity extends AppCompatActivity{
 
         @Override
         protected void onPostExecute(String response) {
-
             handleResponse(response);
             pDlg.dismiss();
-
         }
 
         // Establish connection and socket (data retrieval) timeouts
