@@ -27,5 +27,6 @@
     <string name="botao_cadastrar">Cadastrar</string>
     <string name="label_email">E-mail</string>
     <string name="label_senha">Senha</string>
+    <string name="label_celular">Celular</string>
 
 </resources>

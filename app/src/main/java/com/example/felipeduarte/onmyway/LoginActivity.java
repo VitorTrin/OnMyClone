@@ -33,13 +33,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity{
 
     private static final String SERVICE_URL = "http://192.168.1.2:8080/onmyway-service/rest/user";
 
     private static final String TAG = "LoginActivity";
 
-    EditText editLogin, editSenha;
+    EditText editEmail, editPass;
     Button btLogin;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -51,11 +51,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void inicializaViews(){
-        editLogin = (EditText) findViewById(R.id.editLogin);
-        editSenha = (EditText) findViewById(R.id.editSenha);
+        editEmail = (EditText) findViewById(R.id.userEmail);
+        editPass = (EditText) findViewById(R.id.userPass);
 
-        btLogin = (Button) findViewById(R.id.btLogin);
-        btLogin.setOnClickListener(this);
+        //btLogin = (Button) findViewById(R.id.btLogin);
+        //btLogin.setOnClickListener(this);
     }
 
     private void checarLogado() {
@@ -73,10 +73,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    @Override
+    /*@Override
     public void onClick(View v) {
-        String login = editLogin.getText().toString();
-        String senha = editSenha.getText().toString();
+        String login = editEmail.getText().toString();
+        String senha = editPass.getText().toString();
 
         SharedPreferences.Editor editor = getSharedPreferences(Utils.MY_PREFS_NAME, MODE_PRIVATE).edit();
         editor.putString(Utils.LOGIN, login);
@@ -85,11 +85,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editor.commit();
 
         irParaTelaPrincipal();
-    }
+    }*/
 
     public void userRegistration(View view) {
-        String email = editLogin.getText().toString();
-        String pass = editSenha.getText().toString();
+        String email = editEmail.getText().toString();
+        String pass = editPass.getText().toString();
 
         if(email.equals("") || pass.equals("")) {
             Toast.makeText(this, "Por favor, preencha todos os campos.", Toast.LENGTH_LONG).show();
@@ -104,25 +104,44 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         wst.execute(new String[] {SERVICE_URL});
     }
 
+    public void userLogin(View view) {
+        String email = editEmail.getText().toString();
+        String pass = editPass.getText().toString();
+
+        String loginURL = SERVICE_URL + "?email=" + email + "&password=" + pass;
+
+        WebServiceTask wst = new WebServiceTask(WebServiceTask.GET_TASK, this, "GETting data...");
+
+        wst.execute(new String[] { loginURL });
+    }
+
     public void handleResponse(String response) {
 
-        EditText edEmail = (EditText) findViewById(R.id.editLogin);
-        EditText edPass = (EditText) findViewById(R.id.editSenha);
+        EditText edEmail = (EditText) findViewById(R.id.userEmail);
+        EditText edPass = (EditText) findViewById(R.id.userPass);
 
         edEmail.setText("");
         edPass.setText("");
 
-        try {
-            JSONObject jso = new JSONObject(response);
+        if(response == null)
+            return;
+        else {
+            try {
+                JSONObject jso = new JSONObject(response);
 
-            String email = jso.getString("email");
-            String pass = jso.getString("password");
+                String email = jso.getString("email");
+                String pass = jso.getString("password");
+                int id = jso.getInt("id");
 
-            edEmail.setText(email);
-            edPass.setText(pass);
+                //testing
+                System.out.println("USER ID: " + id);
 
-        } catch (Exception e) {
-            Log.e(TAG, e.getLocalizedMessage(), e);
+                edEmail.setText(email);
+                edPass.setText(pass);
+
+            } catch (Exception e) {
+                Log.e(TAG, e.getLocalizedMessage(), e);
+            }
         }
     }
 
