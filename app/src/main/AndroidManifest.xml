@@ -51,7 +51,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.felipeduarte.onmyway.MainActivity" />
         </activity>
-        <activity android:name=".ViagemActivity"></activity>
+        <activity android:name=".ViagemActivity" />
+        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>

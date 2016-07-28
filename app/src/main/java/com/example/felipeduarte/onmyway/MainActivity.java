@@ -40,4 +40,9 @@ public class MainActivity extends AppCompatActivity /*implements View.OnClickLis
         Intent intent = new Intent(this, ViagemActivity.class);
         startActivity(intent);
     }
+
+    public void goToLogin(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
 }
