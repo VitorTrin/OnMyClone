@@ -46,46 +46,29 @@ public class LoginActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        inicializaViews();
-        //checarLogado();
+        initializeView();
+        checkIfUserIsLoggedIn();
     }
 
-    private void inicializaViews(){
+    private void initializeView(){
         editEmail = (EditText) findViewById(R.id.userEmail);
         editPass = (EditText) findViewById(R.id.userPass);
-
-        //btLogin = (Button) findViewById(R.id.btLogin);
-        //btLogin.setOnClickListener(this);
     }
 
-    private void checarLogado() {
+    private void checkIfUserIsLoggedIn() {
         SharedPreferences prefs = getSharedPreferences(Utils.MY_PREFS_NAME, MODE_PRIVATE);
         Boolean logado = prefs.getBoolean(Utils.USUARIO_LOGADO, false);
         if (logado) {
-            irParaTelaPrincipal();
+            Toast.makeText(this, "Você já está logado!", Toast.LENGTH_LONG).show();
+            goToMainActivity();
         }
     }
 
-    private void irParaTelaPrincipal(){
+    private void goToMainActivity(){
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
-
     }
-
-    /*@Override
-    public void onClick(View v) {
-        String login = editEmail.getText().toString();
-        String senha = editPass.getText().toString();
-
-        SharedPreferences.Editor editor = getSharedPreferences(Utils.MY_PREFS_NAME, MODE_PRIVATE).edit();
-        editor.putString(Utils.LOGIN, login);
-        editor.putString(Utils.SENHA, senha);
-        editor.putBoolean(Utils.USUARIO_LOGADO, true);
-        editor.commit();
-
-        irParaTelaPrincipal();
-    }*/
 
     public void userRegistration(View view) {
         String email = editEmail.getText().toString();
@@ -117,27 +100,21 @@ public class LoginActivity extends AppCompatActivity{
 
     public void handleResponse(String response) {
 
-        EditText edEmail = (EditText) findViewById(R.id.userEmail);
-        EditText edPass = (EditText) findViewById(R.id.userPass);
-
-        edEmail.setText("");
-        edPass.setText("");
-
-        if(response == null)
+        if(response == null || response.isEmpty()) {
+            Toast.makeText(this, "Essa conta não existe.", Toast.LENGTH_LONG).show();
             return;
+        }
         else {
             try {
                 JSONObject jso = new JSONObject(response);
-
-                String email = jso.getString("email");
-                String pass = jso.getString("password");
                 int id = jso.getInt("id");
 
-                //testing
-                System.out.println("USER ID: " + id);
+                SharedPreferences.Editor editor = getSharedPreferences(Utils.MY_PREFS_NAME, MODE_PRIVATE).edit();
+                editor.putInt(Utils.USER_ID, id);
+                editor.putBoolean(Utils.USUARIO_LOGADO, true);
+                editor.commit();
 
-                edEmail.setText(email);
-                edPass.setText(pass);
+                goToMainActivity();
 
             } catch (Exception e) {
                 Log.e(TAG, e.getLocalizedMessage(), e);
